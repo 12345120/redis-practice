@@ -3,8 +3,12 @@ const requestMethods = {
   POST: "POST",
 };
 
-let currentRequestMethod = requestMethods.GET;
+let currentRequestMethod = null;
 let optionBtns = null;
+let optionAreas = null;
+let currentOptionArea = null;
+
+let queryParamIdCounter = 0;
 
 function setElementText(element, text) {
   element.textContent = text;
@@ -12,6 +16,10 @@ function setElementText(element, text) {
 
 function toggleActiveElement(element) {
   element.classList.toggle("active");
+}
+
+function activateElement(element) {
+  element.classList.add("active");
 }
 
 function deactivateElement(element) {
@@ -26,11 +34,14 @@ function changeCurrReqMethod(newMethod) {
   }
 }
 
-function showQueryParams(e) {}
-
-function showHeaders(e) {}
-
-function showJSON(e) {}
+function activateOptionArea(elementSelector) {
+  prevOptionArea = currentOptionArea;
+  if (prevOptionArea != null) {
+    deactivateElement(prevOptionArea);
+  }
+  currentOptionArea = document.querySelector(elementSelector);
+  activateElement(currentOptionArea);
+}
 
 $(".dropdown-main-btn").click(function (e) {
   let dropdownArea = document.querySelector(".dropdown-area");
@@ -45,18 +56,50 @@ $(".dropdown-area .dropdown-btn").click(function (e) {
 $(".btn").click(function (e) {
   for (btn of optionBtns) {
     if (btn == e.target) {
-      toggleActiveElement(e.target);
+      activateElement(e.target);
     } else {
       deactivateElement(btn);
     }
   }
 });
 
-$(".query-params-btn").click(function (e) {});
+$(".query-params-btn").click(function (e) {
+  activateOptionArea(".query-params-option-area");
+});
 
-$(".headers-btn").click(function (e) {});
+$(".headers-btn").click(function (e) {
+  activateOptionArea(".headers-option-area");
+});
 
-$(".json-btn").click(function (e) {});
+$(".json-btn").click(function (e) {
+  activateOptionArea(".json-option-area");
+});
+
+$(".query-params-add-btn").click(function (e) {
+  let queryParamInstance = document.createElement("div");
+  queryParamInstance.classList.add("query-param-instance");
+
+  let key = document.createElement("input");
+  key.classList.add("key");
+  let value = document.createElement("input");
+  value.classList.add("value");
+  let removeBtn = document.createElement("div");
+  removeBtn.textContent = "Remove";
+  removeBtn.classList.add("removeBtn");
+
+  queryParamInstance.appendChild(key);
+  queryParamInstance.appendChild(value);
+  queryParamInstance.appendChild(removeBtn);
+  queryParamInstance.id = queryParamIdCounter;
+  queryParamIdCounter++;
+
+  let queryParamsArea = document.querySelector(".query-params-option-area");
+  queryParamsArea.insertBefore(queryParamInstance, e.target);
+});
+
+$(".send-btn").click(function (e) {
+  // TODO:
+});
 
 $(document).ready(function (e) {
   let dropdownButtonText = document.querySelector(".dropdown-main-btn-text");
@@ -66,6 +109,25 @@ $(document).ready(function (e) {
   let defaultText = dropdownArea.children[0].textContent;
   setElementText(dropdownButtonText, defaultText);
 
-  // populate optionBtns
+  // default setup
+  currentRequestMethod = requestMethods.GET;
   optionBtns = document.querySelectorAll(".btns-list .btn");
+  optionAreas = document.querySelectorAll(".option-area-list .option-area");
+  $(".query-params-btn").click();
+
+  // Mutation Observer for future query param instances
+  const config = { childList: true };
+  const callback = function (mutationsList, observer) {
+    for (const mutation of mutationsList) {
+      if (mutation.type === "childList") {
+        $(".removeBtn").off('click');
+        $(".removeBtn").click(function (e) {
+          e.target.parentNode.remove();
+        })
+      }
+    }
+  };
+  const observer = new MutationObserver(callback);
+  let queryParamsArea = document.querySelector(".query-params-option-area");
+  observer.observe(queryParamsArea, config);
 });
