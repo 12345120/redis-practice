@@ -9,10 +9,35 @@
     <link rel="stylesheet" href="public/stylesheets/index.css" />
   </head>
   <body>
-    <section>
+    <section class="main-section">
       <!-- request writer -->
+      <div class="request-writer">
+        <div class="dropdown-btn dropdown-main-btn">
+          <div class="dropdown-main-btn-text">wee</div>
+          <div class="dropdown-area">
+            <div class="dropdown-btn">GET</div>
+            <div class="dropdown-btn">POST</div>
+          </div>
+        </div>
+        
+        <input class="url-input" placeholder="Type URL Here:"></input>
 
-      <!--  -->
+        <div class="send-btn">Send</div>
+      </div>
+
+      <!-- option buttons -->
+      <div class="btns-list">
+        <div class="btn query-params-btn">Query Params</div>
+        <div class="btn headers-btn">Headers</div>
+        <div class="btn json-btn">JSON</div>
+      </div>
+
+      <!-- option area -->
+      <div class="option-area">
+        <div class="query-params-option-area">
+          <button class="query-params-add-btn">Add</button>
+        </div>
+      </div>
     </section>
 
     <script
@@ -20,5 +45,6 @@
       integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
       crossorigin="anonymous"
     ></script>
+    <script src="public/javascripts/fields.js"></script>
   </body>
 </html>
