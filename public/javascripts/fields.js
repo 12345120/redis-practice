@@ -10,6 +10,9 @@ let currentOptionArea = null;
 
 let queryParamIdCounter = 0;
 
+
+// ### FUNCTIONS ### 
+
 function setElementText(element, text) {
   element.textContent = text;
 }
@@ -24,6 +27,24 @@ function activateElement(element) {
 
 function deactivateElement(element) {
   element.classList.remove("active");
+}
+
+function setGlobalClickEventFuncs(clickEvent, functionsList) {
+  // TODO: 
+  // set of functions to run on every document (global) click event 
+  $(document).click(function(e) {
+    for (func of functionsList) {
+      func(clickEvent); 
+    }
+  });
+}
+
+const globalClickEventFuncs = {
+  deactivateElementIfNotClicked: function(clickEvent, element) {
+    return (clickEvent) => {
+      // TODO: 
+    }
+  }
 }
 
 function changeCurrReqMethod(newMethod) {
@@ -42,6 +63,9 @@ function activateOptionArea(elementSelector) {
   currentOptionArea = document.querySelector(elementSelector);
   activateElement(currentOptionArea);
 }
+
+
+// ### jQuerry Events ### 
 
 $(".dropdown-main-btn").click(function (e) {
   let dropdownArea = document.querySelector(".dropdown-area");
@@ -76,9 +100,11 @@ $(".json-btn").click(function (e) {
 });
 
 $(".query-params-add-btn").click(function (e) {
+  // create new query param input row 
   let queryParamInstance = document.createElement("div");
   queryParamInstance.classList.add("query-param-instance");
 
+  // create components of the input row 
   let key = document.createElement("input");
   key.classList.add("key");
   let value = document.createElement("input");
@@ -87,12 +113,14 @@ $(".query-params-add-btn").click(function (e) {
   removeBtn.textContent = "Remove";
   removeBtn.classList.add("removeBtn");
 
+  // add the components to the input row 
   queryParamInstance.appendChild(key);
   queryParamInstance.appendChild(value);
   queryParamInstance.appendChild(removeBtn);
   queryParamInstance.id = queryParamIdCounter;
   queryParamIdCounter++;
 
+  // add the input row the query param area 
   let queryParamsArea = document.querySelector(".query-params-option-area");
   queryParamsArea.insertBefore(queryParamInstance, e.target);
 });
@@ -120,10 +148,10 @@ $(document).ready(function (e) {
   const callback = function (mutationsList, observer) {
     for (const mutation of mutationsList) {
       if (mutation.type === "childList") {
-        $(".removeBtn").off('click');
+        $(".removeBtn").off("click");
         $(".removeBtn").click(function (e) {
           e.target.parentNode.remove();
-        })
+        });
       }
     }
   };
