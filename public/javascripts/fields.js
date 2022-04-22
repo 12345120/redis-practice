@@ -29,21 +29,29 @@ function deactivateElement(element) {
   element.classList.remove("active");
 }
 
-function setGlobalClickEventFuncs(clickEvent, functionsList) {
+function setGlobalClickEventFuncs(functionsList) {
   // TODO: 
   // set of functions to run on every document (global) click event 
   $(document).click(function(e) {
     for (func of functionsList) {
-      func(clickEvent); 
+      func(e); 
     }
   });
 }
 
 const globalClickEventFuncs = {
-  deactivateElementIfNotClicked: function(clickEvent, element) {
+  // used for deactivating dropdown if other areas are clicked 
+  deactivateElementIfNotClicked: function(elementToCheck, elementToDeactivate) {
     return (clickEvent) => {
+      clickedElement = clickEvent.target;
       // TODO: 
-    }
+      console.log('clickedElement: ', clickedElement);
+      // console.log('set element: ', element);
+      if (clickedElement !== elementToCheck) {
+        // console.log('deactivate!');
+        deactivateElement(elementToDeactivate);
+      }
+    };
   }
 }
 
@@ -127,6 +135,7 @@ $(".query-params-add-btn").click(function (e) {
 
 $(".send-btn").click(function (e) {
   // TODO:
+  console.log(e.target);
 });
 
 $(document).ready(function (e) {
@@ -158,4 +167,11 @@ $(document).ready(function (e) {
   const observer = new MutationObserver(callback);
   let queryParamsArea = document.querySelector(".query-params-option-area");
   observer.observe(queryParamsArea, config);
+  
+  // set global click event process functions 
+  // TODO: 
+  functionsList = [];
+  let dropdownMainBtn = document.querySelector(".dropdown-main-btn");
+  functionsList.push(globalClickEventFuncs.deactivateElementIfNotClicked(dropdownMainBtn, dropdownArea));
+  setGlobalClickEventFuncs(functionsList);
 });

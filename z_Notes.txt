@@ -3,6 +3,10 @@
 - implement request with query param (+ plain)
   - connect to Redis server 
   - integrate JSONplaceholder 
+  
+<ISSUES>
+- setGlobalClickEventFuncs() --> incorrectly implemented 
+  - ... 
 
 <CURIOUSITY>:
 - path.join(__dirname, "/views", "index.html")

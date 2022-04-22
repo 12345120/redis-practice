@@ -46,6 +46,10 @@ input:focus {
   cursor: pointer;
 }
 
+.dropdown-main-btn-text {
+  pointer-events: none;
+}
+
 .dropdown-area {
   opacity: 0;
   z-index: 99;
