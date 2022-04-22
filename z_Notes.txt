@@ -1,0 +1,13 @@
+<TODO>:
+- send button for request UI 
+- implement request with query param (+ plain)
+  - connect to Redis server 
+  - integrate JSONplaceholder 
+
+<CURIOUSITY>:
+- path.join(__dirname, "/views", "index.html")
+  vs. 
+  path.join(__dirname, "views", "index.html") (more concise & consistent)
+- app.use("/src", express.static(path.join(__dirname, "src")));
+  vs. 
+  app.use("/public", express.static("public")); (better)
