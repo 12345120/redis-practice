@@ -29,9 +29,8 @@ function deactivateElement(element) {
   element.classList.remove("active");
 }
 
+// set of functions to run on every document (global) click event 
 function setGlobalClickEventFuncs(functionsList) {
-  // TODO: 
-  // set of functions to run on every document (global) click event 
   $(document).click(function(e) {
     for (func of functionsList) {
       func(e); 
@@ -44,11 +43,7 @@ const globalClickEventFuncs = {
   deactivateElementIfNotClicked: function(elementToCheck, elementToDeactivate) {
     return (clickEvent) => {
       clickedElement = clickEvent.target;
-      // TODO: 
-      console.log('clickedElement: ', clickedElement);
-      // console.log('set element: ', element);
       if (clickedElement !== elementToCheck) {
-        // console.log('deactivate!');
         deactivateElement(elementToDeactivate);
       }
     };
@@ -169,7 +164,6 @@ $(document).ready(function (e) {
   observer.observe(queryParamsArea, config);
   
   // set global click event process functions 
-  // TODO: 
   functionsList = [];
   let dropdownMainBtn = document.querySelector(".dropdown-main-btn");
   functionsList.push(globalClickEventFuncs.deactivateElementIfNotClicked(dropdownMainBtn, dropdownArea));

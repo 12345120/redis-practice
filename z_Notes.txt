@@ -5,8 +5,7 @@
   - integrate JSONplaceholder 
   
 <ISSUES>
-- setGlobalClickEventFuncs() --> incorrectly implemented 
-  - ... 
+- 
 
 <CURIOUSITY>:
 - path.join(__dirname, "/views", "index.html")
